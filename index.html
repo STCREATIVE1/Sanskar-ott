@@ -1,42 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanskar OTT</title>
+    <title>Sanskar OTT - Live TV</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; }
-        #player-box { width: 100%; position: sticky; top: 0; z-index: 100; background: #000; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; padding: 15px; }
-        .card { background: #1a1a1a; border-radius: 8px; padding: 8px; text-align: center; cursor: pointer; border: 1px solid #333; }
-        .card img { width: 100%; border-radius: 5px; height: 70px; object-fit: contain; }
-        .card p { margin: 8px 0 0; font-size: 12px; font-weight: bold; }
+        body { background-color: #0f0f0f; color: white; font-family: sans-serif; margin: 0; padding: 0; }
+        header { background: #1f1f1f; padding: 10px; text-align: center; border-bottom: 2px solid #e50914; position: sticky; top: 0; z-index: 1000; }
+        #player-container { width: 100%; max-width: 800px; margin: 10px auto; background: #000; border-radius: 5px; overflow: hidden; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; padding: 15px; }
+        .card { background: #1f1f1f; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: 0.2s; border: 1px solid #333; }
+        .card:hover { transform: scale(1.05); border-color: #e50914; }
+        .card img { width: 100%; border-radius: 5px; height: 60px; object-fit: contain; }
+        .card p { margin-top: 8px; font-size: 12px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     </style>
 </head>
 <body>
-    <div id="player-box">
-        <video id="videoPlayer" class="video-js vjs-default-skin vjs-16-9" controls autoplay></video>
-    </div>
-    <div class="grid" id="list"></div>
 
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <script>
-        var player = videojs('videoPlayer');
-        // live_data.json se channels load karna
-        fetch('live_data.json').then(r => r.json()).then(data => {
-            const container = document.getElementById('list');
-            data.forEach(ch => {
-                container.innerHTML += `
-                    <div class="card" onclick="play('${ch.id}', '${ch.type}')">
-                        <img src="${ch.img}"><p>${ch.title}</p>
-                    </div>`;
-            });
+<header>
+    <h2 style="margin:0; color:#e50914;">SANSKAR OTT</h2>
+</header>
+
+<div id="player-container">
+    <video id="videoPlayer" class="video-js vjs-default-skin vjs-16-9" controls autoplay preload="auto"></video>
+</div>
+
+<div class="grid" id="channel-list">
+    </div>
+
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<script>
+    // Video.js Player Initialize
+    var player = videojs('videoPlayer');
+
+    // live_data.json se data load karna
+    fetch('live_data.json')
+    .then(res => res.json())
+    .then(data => {
+        const list = document.getElementById('channel-list');
+        data.forEach(ch => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            // YAHAN API PATH CHECK KAREIN: api/stream.php use kiya hai
+            card.onclick = () => playStream(ch.id, ch.type);
+            card.innerHTML = `
+                <img src="${ch.img}" alt="${ch.title}">
+                <p>${ch.title}</p>
+            `;
+            list.appendChild(card);
         });
-        function play(id, type) {
-            player.src({ src: `api/stream.php?id=${id}&type=${type}`, type: 'application/x-mpegURL' });
-            player.play();
-            window.scrollTo(0,0);
-        }
-    </script>
+    })
+    .catch(err => console.error("Error loading channels:", err));
+
+    function playStream(id, type) {
+        // stream.php ab api folder ke andar hai
+        const streamUrl = `api/stream.php?id=${id}&type=${type}`;
+        
+        player.src({
+            src: streamUrl,
+            type: 'application/x-mpegURL'
+        });
+        
+        player.play();
+        // Play click karne par screen ko upar player tak scroll karein
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
 </body>
-</html>
+    </html>
+    
