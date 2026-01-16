@@ -1,14 +1,16 @@
 name: Update Live Channels
 on:
   schedule:
-    - cron: '*/30 * * * *' # Har 30 minute mein chalega
-  workflow_dispatch: # Manual button ke liye
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 jobs:
-  build:
+  update-links:
     runs-with: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Setup PHP
@@ -16,14 +18,16 @@ jobs:
         with:
           php-version: '8.1'
 
-      - name: Fetch Latest Data
-        run: php api/fetcher.php > live_data.json
+      - name: Fetch and Save Data
+        run: |
+          php api/fetcher.php > live_data.json
+          cat live_data.json # Debug karne ke liye check karein
 
-      - name: Commit Changes
+      - name: Push Updates
         run: |
           git config --global user.name "Sanskar-Bot"
           git config --global user.email "bot@sanskar.com"
           git add live_data.json
-          git commit -m "Channels Updated: $(date)" || exit 0
+          git commit -m "Auto Update: $(date)" || exit 0
           git push
           
