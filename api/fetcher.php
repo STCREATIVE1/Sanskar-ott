@@ -14,6 +14,7 @@ function getSonyEvents() {
     $data = json_decode($res, true);
     $events = [];
     
+    // Agar live events milte hain toh unhe add karein
     if(isset($data['resultObj']['containers'][0]['assets'])) {
         foreach($data['resultObj']['containers'][0]['assets'] as $asset) {
             $events[] = [
@@ -24,6 +25,13 @@ function getSonyEvents() {
             ];
         }
     }
+    
+    // Agar koi live match nahi hai, toh fix Sony Sports channels add karein
+    if(empty($events)) {
+        $events[] = ["title" => "Sony Sports Ten 1", "id" => "sony_ten1", "type" => "sony", "img" => "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"];
+        $events[] = ["title" => "Sony Sports Ten 5", "id" => "sony_ten5", "type" => "sony", "img" => "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"];
+    }
+    
     return $events;
 }
 
@@ -32,10 +40,8 @@ $zee_channels = [
     ["title" => "Zee TV HD", "id" => "0-9-zeetvhd", "type" => "zee5", "img" => "https://static.zee5.com/images/ZEE_TV_HD.png"]
 ];
 
-$sony_events = getSonyEvents();
-
-// Agar Sony ka data nahi mila toh sirf Zee channels dikhayega
-$final_data = (!empty($sony_events)) ? array_merge($zee_channels, $sony_events) : $zee_channels;
+$sony_data = getSonyEvents();
+$final_data = array_merge($zee_channels, $sony_data);
 
 echo json_encode($final_data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 ?>
