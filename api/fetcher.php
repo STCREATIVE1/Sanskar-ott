@@ -1,5 +1,4 @@
 <?php
-// api/fetcher.php
 header('Content-Type: application/json');
 
 function getSonyEvents() {
@@ -32,6 +31,5 @@ $zee_channels = [
 $sony_events = getSonyEvents();
 $final_data = array_merge($zee_channels, $sony_events);
 
-// Ye output GitHub Action capture karega
 echo json_encode($final_data, JSON_PRETTY_PRINT);
 ?>
