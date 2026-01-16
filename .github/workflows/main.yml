@@ -1,0 +1,29 @@
+name: Update Live Channels
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Har 30 minute mein chalega
+  workflow_dispatch: # Manual button ke liye
+
+jobs:
+  build:
+    runs-with: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Fetch Latest Data
+        run: php api/fetcher.php > live_data.json
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name "Sanskar-Bot"
+          git config --global user.email "bot@sanskar.com"
+          git add live_data.json
+          git commit -m "Channels Updated: $(date)" || exit 0
+          git push
+          
