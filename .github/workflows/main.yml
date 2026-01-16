@@ -6,7 +6,7 @@ on:
 
 jobs:
   update-links:
-    runs-with: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
@@ -21,7 +21,6 @@ jobs:
       - name: Fetch and Save Data
         run: |
           php api/fetcher.php > live_data.json
-          cat live_data.json # Debug karne ke liye check karein
 
       - name: Push Updates
         run: |
