@@ -10,5 +10,17 @@
         "id": "0-9-zeetvhd",
         "type": "zee5",
         "img": "https://static.zee5.com/images/ZEE_TV_HD.png"
+    },
+    {
+        "title": "Sony Sports Ten 1",
+        "id": "sony_ten1",
+        "type": "sony",
+        "img": "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"
+    },
+    {
+        "title": "Sony Sports Ten 5",
+        "id": "sony_ten5",
+        "type": "sony",
+        "img": "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"
     }
 ]
