@@ -1,0 +1,9 @@
+<?php
+header('Content-Type: application/json');
+// Ye script future mein links update karne ke kaam aayegi
+$channels = [
+    ["title" => "Zee Cinema HD", "id" => "0-9-zeecinemahd", "type" => "zee5", "img" => "https://static.zee5.com/images/ZEE_CINEMA_HD.png"],
+    ["title" => "Sony Sports 1", "id" => "sony_sports_1", "type" => "sony", "img" => "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"]
+];
+echo json_encode($channels);
+?>
