@@ -3,24 +3,7 @@
         "title": "Zee Cinema HD",
         "id": "0-9-zeecinemahd",
         "type": "zee5",
-        "img": "https://static.zee5.com/images/ZEE_CINEMA_HD.png"
-    },
-    {
-        "title": "Zee TV HD",
-        "id": "0-9-zeetvhd",
-        "type": "zee5",
-        "img": "https://static.zee5.com/images/ZEE_TV_HD.png"
-    },
-    {
-        "title": "Sony Sports Ten 1",
-        "id": "sony_ten1",
-        "type": "sony",
-        "img": "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"
-    },
-    {
-        "title": "Sony Sports Ten 5",
-        "id": "sony_ten5",
-        "type": "sony",
-        "img": "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"
+        "img": "https://static.zee5.com/images/ZEE_CINEMA_HD.png",
+        "url": "api/stream.php?id=0-9-zeecinemahd&type=zee5"
     }
 ]
