@@ -4,6 +4,13 @@
         "id": "0-9-zeecinemahd",
         "type": "zee5",
         "img": "https://static.zee5.com/images/ZEE_CINEMA_HD.png",
-        "url": "api/stream.php?id=0-9-zeecinemahd&type=zee5"
+        "url": "https://sanskar-ott-dsbj.vercel.app/api/stream.php?id=0-9-zeecinemahd&type=zee5&ext=.m3u8"
+    },
+    {
+        "title": "Zee TV HD",
+        "id": "0-9-zeetvhd",
+        "type": "zee5",
+        "img": "https://static.zee5.com/images/ZEE_TV_HD.png",
+        "url": "https://sanskar-ott-dsbj.vercel.app/api/stream.php?id=0-9-zeetvhd&type=zee5&ext=.m3u8"
     }
 ]
