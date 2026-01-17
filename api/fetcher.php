@@ -7,37 +7,35 @@ function getSonyEvents() {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
     $res = curl_exec($ch);
-    curl_close($ch);
-    
     $data = json_decode($res, true);
-    $events = [];
     
-    // Agar live events milte hain toh unhe add karein
+    $events = [];
     if(isset($data['resultObj']['containers'][0]['assets'])) {
         foreach($data['resultObj']['containers'][0]['assets'] as $asset) {
+            $id = $asset['contentId'];
             $events[] = [
                 "title" => $asset['title'],
-                "id" => $asset['contentId'],
+                "id" => $id,
                 "type" => "sony",
-                "img" => $asset['image_url']
+                "img" => $asset['image_url'],
+                // Yahan hum direct streaming proxy link daal rahe hain
+                "url" => "https://sony-api-seven.vercel.app/get_m3u8?id=" . $id
             ];
         }
     }
-    
-    // Agar koi live match nahi hai, toh fix Sony Sports channels add karein
-    if(empty($events)) {
-        $events[] = ["title" => "Sony Sports Ten 1", "id" => "sony_ten1", "type" => "sony", "img" => "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"];
-        $events[] = ["title" => "Sony Sports Ten 5", "id" => "sony_ten5", "type" => "sony", "img" => "https://upload.wikimedia.org/wikipedia/en/2/23/Sony_LIV_logo.png"];
-    }
-    
     return $events;
 }
 
+// Zee5 channels ke liye static list with stream.php path
 $zee_channels = [
-    ["title" => "Zee Cinema HD", "id" => "0-9-zeecinemahd", "type" => "zee5", "img" => "https://static.zee5.com/images/ZEE_CINEMA_HD.png"],
-    ["title" => "Zee TV HD", "id" => "0-9-zeetvhd", "type" => "zee5", "img" => "https://static.zee5.com/images/ZEE_TV_HD.png"]
+    [
+        "title" => "Zee Cinema HD", 
+        "id" => "0-9-zeecinemahd", 
+        "type" => "zee5", 
+        "img" => "https://static.zee5.com/images/ZEE_CINEMA_HD.png",
+        "url" => "api/stream.php?id=0-9-zeecinemahd&type=zee5"
+    ]
 ];
 
 $sony_data = getSonyEvents();
